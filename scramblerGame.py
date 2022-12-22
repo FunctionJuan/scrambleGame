@@ -50,11 +50,10 @@ def pickWords(letter=None):
     #lets pick a random word by choosing and random word in the dictionary by selecting a random letter from our alphabet list 
     if letter == None: 
      randWord = rancho.choice(mydict['Letter:'+rancho.choice(alphabetList)])
+         
     elif letter != None:
      randWord = rancho.choice(mydict['Letter:'+rancho.choice(letter)])   
-    
-    
-   
+        
     return randWord
 
 
@@ -68,7 +67,6 @@ def getPlayerChoice():
 def wordScrambler(randWord):
     #wrong word var
     randWord = ''.join(rancho.sample(randWord,len(randWord)))
-    print("Your Scrambled Word is : ")
     return randWord       
 
 def decodeByUser():
@@ -87,7 +85,7 @@ def automaticDecode():
     correctCounter = 0
     #this loop would try to decode to the correct word by running the same word on random characters
     while desorden != randWord:
-        desorden = ''.join(rancho.sample(randWord,len(randWord)))
+        desorden = ''.join(rancho.sample(randWord,len(randWord))) #Need to use .join to return a string and not a list out of the word
         correctCounter = correctCounter + 1             
         if desorden != randWord:
          print(desorden)
@@ -119,9 +117,21 @@ while waitingfForInput:
             print("Your word Decoded is : ", wordDecoded)
          elif scrambleChoice != 1 or scrambleChoice != 2:
             waitingfForInput = False
-
     elif playerChoice == '2':        
-         randWord, correctWord = pickWords()         
+         randWord = pickWords()     
+         scrambledWord = wordScrambler(randWord)
+         print("Your Scrambled Word is : ", scrambledWord)
+         print("Would you like to decipher it? Select 1; If you want Python to try to decode your word Press 2; Press any other key to exit")
+         scrambleChoice = getPlayerChoice() 
+         if scrambleChoice == '1':
+            wordDecoded = decodeByUser()
+            print("Correct! you have decoded to the word ", wordDecoded + " Succesfully! ")
+         elif scrambleChoice == '2':
+            wordDecoded = automaticDecode()
+            print("Your word Decoded is : ", wordDecoded)
+         elif scrambleChoice != 1 or scrambleChoice != 2:
+            waitingfForInput = False
+
     elif playerChoice != '1' or playerChoice != '2':
          print("Exiting Program ... --")
          waitingfForInput = False
